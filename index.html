@@ -3,66 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <title>楽天セールまとめ</title>
+
 <style>
 body {
   font-family: sans-serif;
   max-width: 600px;
   margin: 40px auto;
   line-height: 1.8;
+  color: #222;
 }
 
 h1 {
   font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.update {
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 20px;
 }
 
 .section {
-  margin-top: 20px;
+  margin-top: 30px;
   font-weight: bold;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
 }
 
 .item {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #ddd;
-  padding: 8px 0;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
 }
 
-a {
-  color: blue;
+.item a {
   text-decoration: none;
+  color: #222;
+  display: block;
+}
+
+.title {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.detail {
+  font-size: 13px;
+  color: #666;
 }
 </style>
 </head>
+
 <body>
 
-<h1>楽天セールまとめ（毎日更新）</h1>
+<h1>楽天セールまとめ</h1>
+<div class="update">更新日：2026/03/24</div>
 
-<p style="font-size:12px;color:gray;">
-※このページには広告（アフィリエイトリンク）が含まれます
-</p>
+<div class="section">楽天市場</div>
 
-<div class="section">🔥 今日の一番お得</div>
 <div class="item">
-  <span>楽天スーパーセール｜〜3/28｜上限1万P【今がチャンス】</span>
-  <a href="#">見る</a>
+  <a href="#">
+    <div class="title">楽天スーパーセール</div>
+    <div class="detail">開催：〜3/28　上限：10000ポイント</div>
+  </a>
 </div>
 
-<div class="section">■ エントリー必須</div>
 <div class="item">
-  <span>お買い物マラソン｜〜3/25｜上限7000P【エントリー必須】</span>
-  <a href="#">見る</a>
+  <a href="#">
+    <div class="title">お買い物マラソン</div>
+    <div class="detail">開催：〜3/25　上限：7000ポイント</div>
+  </a>
 </div>
 
-<div class="section">■ エントリー不要</div>
 <div class="item">
-  <span>5と0のつく日｜毎月｜上限なし</span>
-  <a href="#">見る</a>
+  <a href="#">
+    <div class="title">5と0のつく日</div>
+    <div class="detail">毎月開催　上限なし</div>
+  </a>
 </div>
 
-<div class="section">■ その他</div>
+
+<div class="section">その他サービス</div>
+
 <div class="item">
-  <span>楽天トラベルSALE｜〜3/30｜上限なし</span>
-  <a href="#">見る</a>
+  <a href="#">
+    <div class="title">楽天トラベルセール</div>
+    <div class="detail">開催：〜3/30　上限なし</div>
+  </a>
+</div>
+
+<div class="item">
+  <a href="#">
+    <div class="title">楽天ブックスキャンペーン</div>
+    <div class="detail">開催中　上限あり</div>
+  </a>
 </div>
 
 </body>
