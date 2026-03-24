@@ -21,8 +21,11 @@ h1 { font-size: 28px; margin-bottom: 8px; }
 .item { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
 .title { flex: 1 1 60%; margin-bottom: 6px; }
 .title a { color: #4da6ff; text-decoration: none; font-size: 18px; font-weight: 600; word-break: break-word; }
+.title a.highlight { color: #e53935; } /* 🔥用赤 */
 .info { flex: 1 1 35%; font-size: 14px; color: #333; text-align: right; line-height: 1.6; }
 .info div { white-space: normal; }
+.info .end-today { color: #e53935; font-weight: bold; }
+.info .end-soon { color: #ff9800; font-weight: bold; }
 .title a:hover { text-decoration: underline; }
 @media screen and (max-width: 480px) {
   h1 { font-size: 24px; }
@@ -53,62 +56,25 @@ document.getElementById('update-date').textContent = `更新日：${yyyy}/${mm}/
 
 // セール情報
 const sales = [
-  {
-    title:'🔥 お買い物マラソン',
-    url:'https://event.rakuten.co.jp/campaign/point-up/marathon/',
-    start:'2026-03-21', 
-    end:'2026-03-27',
-    info:['上限：7000P','エントリー：必須'],
-    type:'rakuten'
-  },
-  {
-    title:'39キャンペーン',
-    url:'https://event.rakuten.co.jp/campaign/point-up/39/',
-    start:'2026-03-21',
-    end:'2026-03-27',
-    info:['上限：3000P','エントリー：必須'],
-    type:'rakuten'
-  },
-  {
-    title:'5と0のつく日',
-    url:'https://event.rakuten.co.jp/campaign/point-up/5to0/',
-    start:'2026-03-25',
-    end:'2026-03-25',
-    info:['エントリー：不要'],
-    type:'rakuten'
-  },
-  // その他サービス例
-  {
-    title:'楽天トラベル セール',
-    url:'https://travel.rakuten.co.jp/sale/',
-    start:'2026-03-20',
-    end:'2026-03-30',
-    info:['上限：なし'],
-    type:'other'
-  },
-  {
-    title:'楽天ブックス 新刊キャンペーン',
-    url:'https://books.rakuten.co.jp/event/',
-    start:'2026-03-20',
-    end:'2026-03-30',
-    info:['送料無料キャンペーン中'],
-    type:'other'
-  },
-  {
-    title:'楽天ふるさと納税 特集',
-    url:'https://event.rakuten.co.jp/furusato/',
-    start:'2026-03-01',
-    end:'2026-12-31',
-    info:['返礼品多数'],
-    type:'other'
-  }
+  {title:'🔥 お買い物マラソン', url:'https://event.rakuten.co.jp/campaign/point-up/marathon/', start:'2026-03-21', end:'2026-03-27', info:['上限：7000P','エントリー：必須'], type:'rakuten', highlight:true},
+  {title:'39キャンペーン', url:'https://event.rakuten.co.jp/campaign/point-up/39/', start:'2026-03-21', end:'2026-03-27', info:['上限：3000P','エントリー：必須'], type:'rakuten', highlight:false},
+  {title:'5と0のつく日', url:'https://event.rakuten.co.jp/campaign/point-up/5to0/', start:'2026-03-25', end:'2026-03-25', info:['エントリー：不要'], type:'rakuten', highlight:false},
+  {title:'楽天トラベル セール', url:'https://travel.rakuten.co.jp/sale/', start:'2026-03-20', end:'2026-03-30', info:['上限：なし'], type:'other', highlight:false},
+  {title:'楽天モバイル キャンペーン', url:'https://network.mobile.rakuten.co.jp/campaign/', start:'2026-03-01', end:'2026-12-31', info:['新規契約・キャンペーン中'], type:'other', highlight:false}
 ];
+
+// 残り日数を計算
+function remainingDays(end) {
+  const endDate = new Date(end);
+  const diff = endDate - today;
+  return Math.ceil(diff / (1000*60*60*24));
+}
 
 // 今日開催中のセールだけ表示
 sales.forEach(sale => {
   const startDate = new Date(sale.start);
   const endDate = new Date(sale.end);
-  if(today >= startDate && today <= endDate) {
+  if(today >= startDate && today <= endDate){
     const container = sale.type==='rakuten' ? document.getElementById('rakuten-sales') : document.getElementById('other-sales');
     const itemDiv = document.createElement('div');
     itemDiv.className = 'item';
@@ -117,14 +83,22 @@ sales.forEach(sale => {
     titleDiv.className = 'title';
     const a = document.createElement('a');
     a.href = sale.url;
-    a.target = "_blank"; // 新しいタブで開く
+    a.target="_blank";
     a.textContent = sale.title;
+    if(sale.highlight) a.classList.add('highlight'); // 🔥用赤
     titleDiv.appendChild(a);
     
     const infoDiv = document.createElement('div');
     infoDiv.className = 'info';
-    // 本文に終了日を追加
-    infoDiv.appendChild(document.createElement('div')).textContent = `終了日：${sale.end}`;
+    
+    // 終了日＋残り日数＋色分け
+    const days = remainingDays(sale.end);
+    const endDiv = document.createElement('div');
+    endDiv.textContent = `終了日：${sale.end}（${days>0 ? `残り${days}日` : '本日終了'}）`;
+    if(days<=0) endDiv.classList.add('end-today');
+    else if(days<=2) endDiv.classList.add('end-soon');
+    infoDiv.appendChild(endDiv);
+    
     sale.info.forEach(text => {
       const div = document.createElement('div');
       div.textContent = text;
