@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>楽天セールまとめ - 本日開催中</title>
+<title>本日開催中の楽天セール一覧</title>
 
 <style>
 body {
@@ -13,10 +13,14 @@ body {
   padding: 0 6px;
   color: #222;
 }
-h1 { font-size: 28px; margin-bottom: 12px; }
-.item { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+h1 { font-size: 28px; margin-bottom: 8px; }
+.update { font-size: 14px; color: #666; margin-bottom: 18px; font-weight: bold; }
+.section { margin-top: 28px; font-weight: bold; font-size: 19px; padding-bottom: 6px; }
+.rakuten { color: #bf0000; border-bottom: 2px solid #bf0000; }
+.other { color: #2e7d32; border-bottom: 2px solid #2e7d32; }
+.item { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
 .title { flex: 1 1 60%; margin-bottom: 6px; }
-.title a { color: #4da6ff; text-decoration: none; font-size: 18px; font-weight: 600; vertical-align: middle; word-break: break-word; }
+.title a { color: #4da6ff; text-decoration: none; font-size: 18px; font-weight: 600; word-break: break-word; }
 .info { flex: 1 1 35%; font-size: 14px; color: #333; text-align: right; line-height: 1.6; }
 .info div { white-space: normal; }
 .title a:hover { text-decoration: underline; }
@@ -30,7 +34,8 @@ h1 { font-size: 28px; margin-bottom: 12px; }
 
 <body>
 
-<h1 id="page-title">楽天セールまとめ - 本日開催中</h1>
+<h1>本日開催中の楽天セール一覧</h1>
+<div class="update" id="update-date"></div>
 
 <div class="section rakuten">楽天市場</div>
 <div id="rakuten-sales"></div>
@@ -39,10 +44,14 @@ h1 { font-size: 28px; margin-bottom: 12px; }
 <div id="other-sales"></div>
 
 <script>
-// 今日の日付
+// 今日の日付を取得して更新日表示
 const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth()+1).padStart(2,'0');
+const dd = String(today.getDate()).padStart(2,'0');
+document.getElementById('update-date').textContent = `更新日：${yyyy}/${mm}/${dd}`;
 
-// セール情報（シンプル版）
+// セール情報（必要最低限でシンプル）
 const sales = [
   {title:'🔥 お買い物マラソン', url:'https://event.rakuten.co.jp/campaign/point-up/marathon/', start:'2026-03-21', end:'2026-03-27', info:['上限：7000P','エントリー：必須'], type:'rakuten'},
   {title:'39キャンペーン', url:'https://event.rakuten.co.jp/campaign/point-up/39/', start:'2026-03-21', end:'2026-03-27', info:['上限：3000P','エントリー：必須'], type:'rakuten'},
@@ -55,7 +64,7 @@ sales.forEach(sale => {
   const startDate = new Date(sale.start);
   const endDate = new Date(sale.end);
   if(today >= startDate && today <= endDate) {
-    const container = sale.type === 'rakuten' ? document.getElementById('rakuten-sales') : document.getElementById('other-sales');
+    const container = sale.type==='rakuten' ? document.getElementById('rakuten-sales') : document.getElementById('other-sales');
     const itemDiv = document.createElement('div');
     itemDiv.className = 'item';
     
