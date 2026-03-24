@@ -7,60 +7,66 @@
 <style>
 body {
   font-family: sans-serif;
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 0 10px; /* 左右余白を最小限 */
   color: #222;
 }
 
-/* タイトル */
 h1 {
   font-size: 26px;
   margin-bottom: 5px;
 }
 
-/* 更新日 */
 .update {
   font-size: 12px;
   color: gray;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 /* セクション */
 .section {
-  margin-top: 30px;
+  margin-top: 25px;
   font-weight: bold;
   font-size: 16px;
   padding-bottom: 5px;
 }
 
-/* 楽天 */
 .rakuten {
   color: #bf0000;
   border-bottom: 2px solid #bf0000;
 }
 
-/* その他 */
 .other {
   color: #2e7d32;
   border-bottom: 2px solid #2e7d32;
 }
 
-/* 1行 */
+/* 行（横並び） */
 .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid #eee;
 }
 
-/* リンク */
-.item a {
-  text-decoration: none;
+/* 左（タイトル） */
+.title a {
   color: #1a0dab;
-  display: block;
+  text-decoration: none;
   font-size: 14px;
 }
 
-/* ホバー（地味に重要） */
-.item a:hover {
+/* 右（情報） */
+.info {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+}
+
+/* ホバー */
+.title a:hover {
   text-decoration: underline;
 }
 </style>
@@ -74,29 +80,49 @@ h1 {
 <div class="section rakuten">楽天市場</div>
 
 <div class="item">
-  <a href="https://event.rakuten.co.jp/campaign/point-up/marathon/?l-id=top_normal_bigbnr_pc_JBEFGGIB_161584_0">
-    お買い物マラソン｜〜3/27｜上限7000P｜エントリー必須
-  </a>
+  <div class="title">
+    <a href="https://event.rakuten.co.jp/campaign/point-up/marathon/?l-id=top_normal_bigbnr_pc_JBEFGGIB_161584_0">
+      お買い物マラソン
+    </a>
+  </div>
+  <div class="info">
+    〜3/27｜上限7000P｜エントリー必須
+  </div>
 </div>
 
 <div class="item">
-  <a href="#">
-    39ショップ｜〜3/27｜上限3000P｜エントリー必須
-  </a>
+  <div class="title">
+    <a href="#">
+      39ショップ
+    </a>
+  </div>
+  <div class="info">
+    〜3/27｜上限3000P｜エントリー必須
+  </div>
 </div>
 
 <div class="item">
-  <a href="#">
-    5と0のつく日｜毎月｜上限なし｜エントリー不要
-  </a>
+  <div class="title">
+    <a href="#">
+      5と0のつく日
+    </a>
+  </div>
+  <div class="info">
+    毎月｜上限なし｜エントリー不要
+  </div>
 </div>
 
 <div class="section other">その他サービス</div>
 
 <div class="item">
-  <a href="#">
-    楽天トラベルセール｜〜3/30｜上限なし
-  </a>
+  <div class="title">
+    <a href="#">
+      楽天トラベルセール
+    </a>
+  </div>
+  <div class="info">
+    〜3/30｜上限なし
+  </div>
 </div>
 
 </body>
