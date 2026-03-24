@@ -3,48 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>本日開催中の楽天セール一覧</title>
-
+<title>本日開催中の楽天セール詳細</title>
 <style>
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  max-width: 700px;
-  margin: 10px auto;
-  padding: 0 6px;
-  color: #222;
-}
-h1 { font-size: 28px; margin-bottom: 8px; }
-.update { font-size: 14px; color: #666; margin-bottom: 18px; font-weight: bold; }
-.section { margin-top: 28px; font-weight: bold; font-size: 19px; padding-bottom: 6px; }
-.rakuten { color: #bf0000; border-bottom: 2px solid #bf0000; }
-.other { color: #2e7d32; border-bottom: 2px solid #2e7d32; }
-.item { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
-.title { flex: 1 1 60%; margin-bottom: 6px; }
-.title a { color: #4da6ff; text-decoration: none; font-size: 18px; font-weight: 600; word-break: break-word; }
-.title a.highlight { color: #e53935; } /* 🔥用赤 */
-.info { flex: 1 1 35%; font-size: 14px; color: #333; text-align: right; line-height: 1.6; }
-.info div { white-space: normal; }
-.info .end-today { color: #e53935; font-weight: bold; }
-.info .end-soon { color: #ff9800; font-weight: bold; }
-.title a:hover { text-decoration: underline; }
-@media screen and (max-width: 480px) {
-  h1 { font-size: 24px; }
-  .title a { font-size: 16px; }
-  .info { font-size: 13px; text-align: left; }
-}
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width:700px; margin:10px auto; padding:0 6px; color:#222; }
+h1 { font-size:28px; margin-bottom:8px; }
+.update { font-size:14px; color:#666; margin-bottom:18px; font-weight:bold; }
+.section { margin-top:28px; font-weight:bold; font-size:19px; padding-bottom:6px; }
+.rakuten { color:#bf0000; border-bottom:2px solid #bf0000; }
+.other { color:#2e7d32; border-bottom:2px solid #2e7d32; }
+.item { display:flex; justify-content:space-between; align-items:flex-start; padding:16px 0; border-bottom:1px solid #eee; flex-wrap:wrap; }
+.title { flex:1 1 60%; margin-bottom:6px; }
+.title a { color:#4da6ff; text-decoration:none; font-size:18px; font-weight:600; word-break:break-word; }
+.title a.highlight { color:#e53935; }
+.info { flex:1 1 35%; font-size:14px; color:#333; text-align:right; line-height:1.6; }
+.info div { white-space:normal; }
+.info .end-today { color:#e53935; font-weight:bold; }
+.info .end-soon { color:#ff9800; font-weight:bold; }
+.entry-link { display:block; font-size:13px; color:#0066cc; text-decoration:underline; margin-top:4px; }
+.title a:hover, .entry-link:hover { text-decoration:underline; }
+@media screen and (max-width:480px) { h1{font-size:24px;} .title a{font-size:16px;} .info{text-align:left;font-size:13px;} }
 </style>
 </head>
-
 <body>
 
-<h1>本日開催中の楽天セール一覧</h1>
+<h1>本日開催中の楽天セール詳細</h1>
 <div class="update" id="update-date"></div>
 
 <div class="section rakuten">楽天市場</div>
 <div id="rakuten-sales"></div>
 
-<div class="section other">その他サービス</div>
-<div id="other-sales"></div>
+<div class="section other">楽天トラベル</div>
+<div id="travel-sales"></div>
 
 <script>
 // 今日の日付
@@ -54,62 +43,92 @@ const mm = String(today.getMonth()+1).padStart(2,'0');
 const dd = String(today.getDate()).padStart(2,'0');
 document.getElementById('update-date').textContent = `更新日：${yyyy}/${mm}/${dd}`;
 
-// セール情報
-const sales = [
-  {title:'🔥 お買い物マラソン', url:'https://event.rakuten.co.jp/campaign/point-up/marathon/', start:'2026-03-21', end:'2026-03-27', info:['上限：7000P','エントリー：必須'], type:'rakuten', highlight:true},
-  {title:'39キャンペーン', url:'https://event.rakuten.co.jp/campaign/point-up/39/', start:'2026-03-21', end:'2026-03-27', info:['上限：3000P','エントリー：必須'], type:'rakuten', highlight:false},
-  {title:'5と0のつく日', url:'https://event.rakuten.co.jp/campaign/point-up/5to0/', start:'2026-03-25', end:'2026-03-25', info:['エントリー：不要'], type:'rakuten', highlight:false},
-  {title:'楽天トラベル セール', url:'https://travel.rakuten.co.jp/sale/', start:'2026-03-20', end:'2026-03-30', info:['上限：なし'], type:'other', highlight:false},
-  {title:'楽天モバイル キャンペーン', url:'https://network.mobile.rakuten.co.jp/campaign/', start:'2026-03-01', end:'2026-12-31', info:['新規契約・キャンペーン中'], type:'other', highlight:false}
+// 楽天市場のセール
+const rakutenSales = [
+  {
+    title:'🔥 お買い物マラソン',
+    url:'https://event.rakuten.co.jp/campaign/point-up/marathon/',
+    end:'2026-03-27',
+    info:['上限：7000P','エントリー必須'],
+    highlight:true,
+    entryCheck:'https://event.rakuten.co.jp/campaign/point-up/marathon/history/' // 仮
+  },
+  {
+    title:'5と0のつく日',
+    url:'https://event.rakuten.co.jp/card/pointday/',
+    end:'2026-03-25',
+    info:['ポイントアップ日'],
+    highlight:false,
+    entryCheck:'https://event.rakuten.co.jp/campaign/pointday/history/'
+  },
+  {
+    title:'送料無料ライン39キャンペーン',
+    url:'https://event.rakuten.co.jp/guide/freeshippingline/campaign/',
+    end:'2026-03-11',
+    info:['エントリーでポイント2倍'],
+    highlight:false,
+    entryCheck:'https://event.rakuten.co.jp/guide/freeshippingline/history/'
+  }
 ];
 
-// 残り日数を計算
-function remainingDays(end) {
+// 楽天トラベル情報
+const travelSales = [
+  {
+    title:'楽天トラベル 春の宿泊セール',
+    url:'https://travel.rakuten.co.jp/camp/50luxday/top/',
+    end:'2026-04-30',
+    info:['宿泊・遊び・クーポンあり']
+  }
+];
+
+// 残り日数計算
+function remainingDays(end){
   const endDate = new Date(end);
   const diff = endDate - today;
-  return Math.ceil(diff / (1000*60*60*24));
+  return Math.ceil(diff/(1000*60*60*24));
 }
 
-// 今日開催中のセールだけ表示
-sales.forEach(sale => {
-  const startDate = new Date(sale.start);
-  const endDate = new Date(sale.end);
-  if(today >= startDate && today <= endDate){
-    const container = sale.type==='rakuten' ? document.getElementById('rakuten-sales') : document.getElementById('other-sales');
-    const itemDiv = document.createElement('div');
-    itemDiv.className = 'item';
-    
-    const titleDiv = document.createElement('div');
-    titleDiv.className = 'title';
-    const a = document.createElement('a');
-    a.href = sale.url;
-    a.target="_blank";
-    a.textContent = sale.title;
-    if(sale.highlight) a.classList.add('highlight'); // 🔥用赤
-    titleDiv.appendChild(a);
-    
-    const infoDiv = document.createElement('div');
-    infoDiv.className = 'info';
-    
-    // 終了日＋残り日数＋色分け
-    const days = remainingDays(sale.end);
-    const endDiv = document.createElement('div');
-    endDiv.textContent = `終了日：${sale.end}（${days>0 ? `残り${days}日` : '本日終了'}）`;
-    if(days<=0) endDiv.classList.add('end-today');
-    else if(days<=2) endDiv.classList.add('end-soon');
-    infoDiv.appendChild(endDiv);
-    
-    sale.info.forEach(text => {
-      const div = document.createElement('div');
-      div.textContent = text;
-      infoDiv.appendChild(div);
-    });
-    
-    itemDiv.appendChild(titleDiv);
-    itemDiv.appendChild(infoDiv);
-    container.appendChild(itemDiv);
-  }
-});
+// 表示関数
+function displaySales(sales, containerId){
+  const container = document.getElementById(containerId);
+  sales.forEach(sale=>{
+    const endDate = new Date(sale.end);
+    if(today <= endDate){
+      const itemDiv = document.createElement('div'); itemDiv.className='item';
+
+      const titleDiv = document.createElement('div'); titleDiv.className='title';
+      const a = document.createElement('a'); a.href=sale.url; a.target='_blank'; a.textContent=sale.title;
+      if(sale.highlight) a.classList.add('highlight');
+      titleDiv.appendChild(a);
+
+      const infoDiv = document.createElement('div'); infoDiv.className='info';
+      const days = remainingDays(sale.end);
+      const endDiv = document.createElement('div');
+      endDiv.textContent = `終了日：${sale.end}（${days>0?`残り${days}日`:'本日終了'}）`;
+      if(days<=0) endDiv.classList.add('end-today'); else if(days<=2) endDiv.classList.add('end-soon');
+      infoDiv.appendChild(endDiv);
+
+      sale.info.forEach(text=>{
+        const div = document.createElement('div'); div.textContent = text;
+        infoDiv.appendChild(div);
+      });
+
+      // エントリー履歴確認リンク（楽天市場のみ）
+      if(sale.entryCheck){
+        const checkLink = document.createElement('a'); checkLink.href=sale.entryCheck; checkLink.target='_blank';
+        checkLink.textContent = 'エントリー履歴を確認';
+        checkLink.className = 'entry-link';
+        infoDiv.appendChild(checkLink);
+      }
+
+      itemDiv.appendChild(titleDiv); itemDiv.appendChild(infoDiv);
+      container.appendChild(itemDiv);
+    }
+  });
+}
+
+displaySales(rakutenSales,'rakuten-sales');
+displaySales(travelSales,'travel-sales');
 </script>
 
 </body>
