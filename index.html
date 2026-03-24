@@ -1,3 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>楽天セールまとめ</title>
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 0 6px;
+  color: #222;
+}
+
+/* タイトル */
+h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+/* 更新日 */
+.update {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 18px;
+}
+
+/* セクション */
+.section {
+  margin-top: 28px;
+  font-weight: bold;
+  font-size: 19px;
+  padding-bottom: 6px;
+}
+
+.rakuten {
+  color: #bf0000;
+  border-bottom: 2px solid #bf0000;
+}
+
+.other {
+  color: #2e7d32;
+  border-bottom: 2px solid #2e7d32;
+}
+
+/* 行 */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* 左（セール名） */
+.title a {
+  color: #4da6ff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  vertical-align: middle; /* 絵文字の縦揃え */
+}
+
+/* 右（情報） */
+.info {
+  font-size: 14px;
+  color: #333;
+  text-align: right;
+  line-height: 1.6; /* 少し広げて見やすく */
+}
+
+.info div {
+  white-space: normal; /* 長い文字列の折り返し対応 */
+}
+
+/* ホバー */
+.title a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
 <h1>楽天セールまとめ</h1>
 <div class="update">更新日：2026/03/24 0:00</div>
 
@@ -41,3 +127,20 @@
     <div>エントリー：不要</div>
   </div>
 </div>
+
+<div class="section other">その他サービス</div>
+
+<div class="item">
+  <div class="title">
+    <a href="#">
+      楽天トラベルセール
+    </a>
+  </div>
+  <div class="info">
+    <div>期限：〜3/30</div>
+    <div>上限：なし</div>
+  </div>
+</div>
+
+</body>
+</html>
