@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>本日開催中の楽天セール詳細</title>
+<title>本日開催中の楽天セール一覧</title>
 <style>
 body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width:700px; margin:10px auto; padding:0 6px; color:#222; }
 h1 { font-size:28px; margin-bottom:8px; }
@@ -17,6 +17,7 @@ h1 { font-size:28px; margin-bottom:8px; }
 .title a.highlight { color:#e53935; }
 .info { flex:1 1 35%; font-size:14px; color:#333; text-align:right; line-height:1.6; }
 .info div { white-space:normal; margin-bottom:4px; }
+.end-date { font-weight:bold; color:#e53935; margin-bottom:6px; }
 .entry-button { display:inline-block; padding:8px 12px; background-color:#4da6ff; color:white; border-radius:5px; text-decoration:none; font-weight:bold; margin-top:12px; }
 .entry-button:hover { background-color:#357ab8; }
 @media screen and (max-width:480px) { h1{font-size:24px;} .title a{font-size:16px;} .info{text-align:left;font-size:13px;} }
@@ -24,7 +25,7 @@ h1 { font-size:28px; margin-bottom:8px; }
 </head>
 <body>
 
-<h1>本日開催中の楽天セール詳細</h1>
+<h1>本日開催中の楽天セール一覧</h1>
 <div class="update" id="update-date"></div>
 
 <div class="section rakuten">楽天市場</div>
@@ -45,22 +46,24 @@ const mm = String(today.getMonth()+1).padStart(2,'0');
 const dd = String(today.getDate()).padStart(2,'0');
 document.getElementById('update-date').textContent = `更新日：${yyyy}/${mm}/${dd}`;
 
-// 楽天市場のセール
+// 楽天市場セール（今日開催のみ）
 const rakutenSales = [
-  {title:'🔥 お買い物マラソン', url:'https://event.rakuten.co.jp/campaign/point-up/marathon/', info:['上限：7000P','ポイント倍率：最大44倍'], highlight:true},
-  {title:'5と0のつく日', url:'https://event.rakuten.co.jp/card/pointday/', info:['ポイント倍率：5倍'], highlight:false},
-  {title:'送料無料ライン39キャンペーン', url:'https://event.rakuten.co.jp/guide/freeshippingline/campaign/', info:['ポイント倍率：2倍'], highlight:false}
+  {title:'🔥 お買い物マラソン', url:'https://event.rakuten.co.jp/campaign/point-up/marathon/', 
+   end:'2026-03-27', maxPoint:'7000P', maxRate:'最大44倍', highlight:true, entryCheck:true}
+  // ※5と0の日は今日対象外なので削除
 ];
 
-// 楽天トラベルの複数キャンペーン
+// 楽天トラベルセール（例として複数）
 const travelSales = [
-  {title:'宿泊セール', url:'https://travel.rakuten.co.jp/camp/50luxday/top/', info:['宿泊プラン・ポイントアップ']},
-  {title:'遊び・体験セール', url:'https://activity.rakuten.co.jp/special/campaign/', info:['遊び・体験・アクティビティ情報']},
-  {title:'クーポン・割引情報', url:'https://travel.rakuten.co.jp/coupon/', info:['宿泊・遊びで使えるクーポン']},
-  {title:'特集・おすすめプラン', url:'https://travel.rakuten.co.jp/special/', info:['季節の特集やおすすめプラン']}
+  {title:'春の宿泊セール', url:'https://travel.rakuten.co.jp/camp/50luxday/top/', 
+   end:'2026-04-30', maxPoint:'なし', maxRate:'2倍', highlight:false},
+  {title:'遊び・体験セール', url:'https://activity.rakuten.co.jp/special/campaign/', 
+   end:'2026-04-30', maxPoint:'なし', maxRate:'2倍', highlight:false},
+  {title:'クーポン・割引情報', url:'https://travel.rakuten.co.jp/coupon/', 
+   end:'2026-04-30', maxPoint:'なし', maxRate:'1倍', highlight:false}
 ];
 
-// 表示関数
+// 表示関数（楽天市場・トラベル共通）
 function displaySales(sales, containerId){
   const container = document.getElementById(containerId);
   sales.forEach(sale=>{
@@ -72,10 +75,15 @@ function displaySales(sales, containerId){
     titleDiv.appendChild(a);
 
     const infoDiv = document.createElement('div'); infoDiv.className='info';
-    sale.info.forEach(text=>{
-      const div = document.createElement('div'); div.textContent=text;
-      infoDiv.appendChild(div);
-    });
+    const endDiv = document.createElement('div'); endDiv.className='end-date';
+    endDiv.textContent = `終了日：${sale.end}`;
+    infoDiv.appendChild(endDiv);
+
+    const rateDiv = document.createElement('div'); rateDiv.textContent = `ポイント倍率：${sale.maxRate}`;
+    infoDiv.appendChild(rateDiv);
+
+    const pointDiv = document.createElement('div'); pointDiv.textContent = `上限ポイント：${sale.maxPoint}`;
+    infoDiv.appendChild(pointDiv);
 
     itemDiv.appendChild(titleDiv); itemDiv.appendChild(infoDiv);
     container.appendChild(itemDiv);
