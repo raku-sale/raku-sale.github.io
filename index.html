@@ -3,93 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>本日開催中の楽天セール一覧</title>
+<title>楽天セールまとめ</title>
+
 <style>
-body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width:900px; margin:10px auto; padding:0 6px; color:#222; }
-h1 { font-size:28px; margin-bottom:8px; text-align:center; }
-.update { font-size:14px; color:#666; margin-bottom:18px; font-weight:bold; text-align:center; }
-.section { margin-top:28px; font-weight:bold; font-size:19px; padding-bottom:6px; }
-.rakuten { color:#bf0000; border-bottom:2px solid #bf0000; }
-.other { color:#2e7d32; border-bottom:2px solid #2e7d32; }
-.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px; }
-.item { padding:12px; border:1px solid #eee; border-radius:6px; background:#fafafa; display:flex; flex-direction:column; }
-.title a { color:#4da6ff; text-decoration:none; font-size:16px; font-weight:600; margin-bottom:6px; }
-.title a.highlight { color:#e53935; }
-.info { font-size:13px; color:#333; line-height:1.4; margin-top:auto; }
-.info div { margin-bottom:4px; }
-.end-date { font-weight:bold; color:#000; }
-.entry-button { display:inline-block; padding:8px 12px; background-color:#4da6ff; color:white; border-radius:5px; text-decoration:none; font-weight:bold; margin:20px auto 0; text-align:center; }
-.entry-button:hover { background-color:#357ab8; }
-@media screen and (max-width:768px) { .grid { grid-template-columns:repeat(2,1fr); } }
-@media screen and (max-width:480px) { .grid { grid-template-columns:1fr; } h1{font-size:24px;} }
-</style>
-</head>
-<body>
-
-<h1>本日開催中の楽天セール一覧</h1>
-<div class="update" id="update-date"></div>
-
-<div class="section rakuten">楽天市場</div>
-<div id="rakuten-sales" class="grid"></div>
-
-<div class="section other">楽天トラベル</div>
-<div id="travel-sales" class="grid"></div>
-
-<div style="text-align:center;">
-  <a href="https://grp01.id.rakuten.co.jp/rms/mall/rakuten/history?l-id=top_normal_bnry_hist" target="_blank" class="entry-button">エントリー履歴を確認</a>
-</div>
-
-<script>
-// 今日の日付
-const today = new Date();
-const yyyy = today.getFullYear();
-const mm = String(today.getMonth()+1).padStart(2,'0');
-const dd = String(today.getDate()).padStart(2,'0');
-document.getElementById('update-date').textContent = `更新日：${yyyy}/${mm}/${dd}`;
-
-// 楽天市場セール
-const rakutenSales = [
-  {title:'🔥 お買い物マラソン', url:'https://event.rakuten.co.jp/campaign/point-up/marathon/', end:'2026-03-27', maxPoint:'7000P', maxRate:'最大44倍', highlight:true},
-  {title:'39ショップ', url:'https://event.rakuten.co.jp/39shop/', end:'毎日', maxPoint:'3000P', maxRate:'+1倍', highlight:false} // 毎日表示
-];
-
-// 楽天トラベルセール
-const travelSales = [
-  {title:'春の宿泊セール', url:'https://travel.rakuten.co.jp/camp/50luxday/top/', end:'2026-04-30', maxPoint:'なし', maxRate:'2倍'},
-  {title:'遊び・体験セール', url:'https://activity.rakuten.co.jp/special/campaign/', end:'2026-04-30', maxPoint:'なし', maxRate:'2倍'},
-  {title:'クーポン・割引情報', url:'https://travel.rakuten.co.jp/coupon/', end:'2026-04-30', maxPoint:'なし', maxRate:'1倍'}
-];
-
-// 表示関数
-function displaySales(sales, containerId){
-  const container = document.getElementById(containerId);
-  sales.forEach(sale=>{
-    const itemDiv = document.createElement('div'); itemDiv.className='item';
-
-    const titleDiv = document.createElement('div'); titleDiv.className='title';
-    const a = document.createElement('a'); a.href=sale.url; a.target='_blank'; a.textContent=sale.title;
-    if(sale.highlight) a.classList.add('highlight');
-    titleDiv.appendChild(a);
-
-    const infoDiv = document.createElement('div'); infoDiv.className='info';
-    const endDiv = document.createElement('div'); endDiv.className='end-date';
-    endDiv.textContent = `終了日：${sale.end}`;
-    infoDiv.appendChild(endDiv);
-
-    const rateDiv = document.createElement('div'); rateDiv.textContent = `ポイント倍率：${sale.maxRate}`;
-    infoDiv.appendChild(rateDiv);
-
-    const pointDiv = document.createElement('div'); pointDiv.textContent = `上限ポイント：${sale.maxPoint}`;
-    infoDiv.appendChild(pointDiv);
-
-    itemDiv.appendChild(titleDiv); itemDiv.appendChild(infoDiv);
-    container.appendChild(itemDiv);
-  });
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 0 6px;
+  color: #222;
 }
 
-displaySales(rakutenSales,'rakuten-sales');
-displaySales(travelSales,'travel-sales');
-</script>
+/* タイトル */
+h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+/* 更新日 */
+.update {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* 行 */
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* セール名 */
+.title a {
+  color: #4da6ff;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* 情報（1行） */
+.info {
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+</style>
+</head>
+
+<body>
+
+<h1>楽天セールまとめ</h1>
+<div class="update">更新日：2026/03/24</div>
+
+<div class="item">
+  <div class="title">
+    <a href="#">お買い物マラソン</a>
+  </div>
+  <div class="info">
+    〜3/27｜7000P｜エントリー必須
+  </div>
+</div>
+
+<div class="item">
+  <div class="title">
+    <a href="#">39ショップ</a>
+  </div>
+  <div class="info">
+    〜3/27｜3000P｜エントリー必須
+  </div>
+</div>
+
+<div class="item">
+  <div class="title">
+    <a href="#">5と0のつく日</a>
+  </div>
+  <div class="info">
+    毎月｜上限なし｜エントリー不要
+  </div>
+</div>
 
 </body>
 </html>
