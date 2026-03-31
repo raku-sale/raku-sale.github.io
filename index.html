@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>楽天エントリー一覧｜取りこぼし防止</title>
+<title>楽天エントリー一覧｜エントリー忘れ防止</title>
 
 <style>
 body {
@@ -16,22 +16,30 @@ body {
 
 /* タイトル */
 h1 {
-  font-size: 30px;
-  margin-bottom: 8px;
+  font-size: 24px;
+  margin-bottom: 10px;
+  white-space: nowrap;
 }
 
-/* 更新日 */
-.update {
+/* 【】部分だけ小さく */
+.small {
   font-size: 14px;
   color: #666;
-  margin-bottom: 12px;
 }
 
-/* お知らせ */
+/* 更新日（少し大きく＆控えめ） */
+.update {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* お知らせ（しっかり目立たせる） */
 .notice {
-  font-size: 15px;
-  color: #555;
-  margin: 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin: 14px 0;
 }
 
 /* ボタン */
@@ -55,7 +63,7 @@ h1 {
   border-bottom: 1px solid #eee;
 }
 
-/* タイトルリンク */
+/* セール名 */
 .title a {
   color: #4da6ff;
   text-decoration: none;
@@ -74,8 +82,14 @@ h1 {
 
 <body>
 
-<h1>楽天エントリー 一覧 【取りこぼし防止】</h1>
-<div class="update">更新日：2026/03/31 11:24</div>
+<h1>
+楽天エントリー一覧
+<span class="small">【エントリー忘れ防止】</span>
+</h1>
+
+<div class="update">
+更新日：2026/03/31 11:34
+</div>
 
 <div class="notice">
 本日エントリー可能なキャンペーンはありません
@@ -84,18 +98,6 @@ h1 {
 <a href="https://oubo.rakuten.co.jp/list" target="_blank" class="button">
 エントリー履歴を見る
 </a>
-
-<!-- セールがある日はここに追加 -->
-<!--
-<div class="item">
-  <div class="title">
-    <a href="#">お買い物マラソン</a>
-  </div>
-  <div class="info">
-    〜3/27｜7000P｜エントリー必須
-  </div>
-</div>
--->
 
 </body>
 </html>
